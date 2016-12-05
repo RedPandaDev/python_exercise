@@ -56,7 +56,7 @@ def winProbability(ra, rb, n):
 
 def sumRows(filename, header=True):
 	"""
-	>>> sumRows("players.csv")
+	>>> sumRows("test.csv")
 	[(60, 20), (100, 55), (50, 40), (20, 70), (95, 85)]
 	"""
 	lst_names = []
