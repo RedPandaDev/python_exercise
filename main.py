@@ -1,5 +1,8 @@
 import random
 import csv
+import matplotlib.pyplot as plt
+
+
 #						1(a)
 def game(ra,rb):
 	"""
@@ -73,10 +76,15 @@ def sumRows(filename, header=True):
 #						1(d)
 def plotting(filename):
 
+	lstPlots = sumRows(filename)
 
- 	lstPlots = sumRows(filename)
- 	print(lstPlots)
+	# plt.plot(lstPlots)
+	# plt.show()
+	for i in lstPlots:
+		prob = i[0] / (i[0]+i[1])
+		plt.plot([prob], [i], 'ro')
 
+	plt.show()
 
 
 
