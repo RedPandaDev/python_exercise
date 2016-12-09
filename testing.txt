@@ -1,0 +1,43 @@
+
+C:\>python -m doctest -v main.py
+Trying:
+    random.seed(57)
+Expecting nothing
+ok
+Trying:
+    game(70, 30)
+Expecting:
+    (11, 5)
+ok
+Trying:
+    gameNum(60,40,0.9)
+Expecting:
+    5
+ok
+Trying:
+    sumRows("test.csv")
+Expecting:
+    [(60, 20), (100, 55), (50, 40), (20, 70), (95, 85)]
+ok
+Trying:
+    winProbability(70, 30, 100)
+Expecting:
+    0.98
+ok
+6 items had no tests:
+    main
+    main.gameEng
+    main.gamePars
+    main.plotting
+    main.probabilities
+    main.scorringPlot
+4 items passed all tests:
+   2 tests in main.game
+   1 tests in main.gameNum
+   1 tests in main.sumRows
+   1 tests in main.winProbability
+5 tests in 10 items.
+5 passed and 0 failed.
+Test passed.
+
+C:\>

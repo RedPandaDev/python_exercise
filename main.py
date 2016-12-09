@@ -78,12 +78,15 @@ def plotting(filename):
 
 	lstPlots = sumRows(filename)
 
-	# plt.plot(lstPlots)
-	# plt.show()
 	for i in lstPlots:
 		prob = i[0] / (i[0]+i[1])
-		plt.plot([prob], [i], 'ro')
-
+		rarb = i[0]/i[1]
+		plt.plot([prob], [rarb], 'o')
+		plt.annotate(i, xy=(prob, rarb) )
+	plt.xlabel("Probability")
+	plt.ylabel("ra/rb")
+	plt.title("Probability that player A wins against ra/rb")
+	plt.grid()
 	plt.show()
 
 
@@ -139,5 +142,89 @@ def gameNum(ra,rb,winProb):
 
 
 
-import doctest
-doctest.testmod()
+
+
+# 					2
+
+def gamePars(p):
+	a = 0 				# team a score
+	b = 0 				# team b score
+	r = 0 				# random float
+
+	gameOver = False
+
+	while gameOver == False:
+		r = random.random()  # Get random float value 0-1 to see who 'won'
+		if r < p:
+			a += 1
+		else:
+			b += 1
+		# Check the scores according to the rules
+		if (a >= 11 or b >= 11) and (a - b >= 2 or b - a >= 2):
+			gameOver = True
+
+	return a+b
+
+def gameEng(p, serverA = True):
+	a = 0 				# team a score
+	b = 0 				# team b score
+	r = 0 				# random float
+	tie = 0				# decider between 9 or 10 in a tie
+	end = 9				# in case of tie, play to 9 ot 10
+	time = 0
+	gameOver = False
+
+	while gameOver == False:
+		r = random.random()  # Get random float value 0-1 to see who 'won'
+		if r < p:
+			if serverA == True:  	# If A served first
+				a += 1				# Add to a's score
+			serverA = True			# else just make a serve next
+		else:
+			if serverA == False:
+				b += 1
+			serverA = False	
+		time +=1
+		
+		# Check the scores according to the rules
+		if a == 8 and b == 8:
+			tie = random.randrange(1,3)
+			if tie == 1:
+				end = 9
+			else:
+				end = 10
+
+
+		if (a >= end or b >= end):
+			gameOver = True
+
+	return time
+
+def scorringPlot():
+	import numpy
+	p = numpy.arange(0.05, 1.5 , 0.05) # A player win probability
+	linePars = []
+	lineEng = []
+	for prob in p:
+		linePars.append(gamePars(prob))
+		lineEng.append(gameEng(prob))
+
+
+	plt.plot(p, linePars, color='b')
+	plt.plot(p, lineEng, color='g')
+	plt.ylim((5, 50))
+	plt.xlim((0.1,1.5))
+	plt.xlabel("Relative player ability")
+	plt.ylabel("Time in minutes")
+	plt.title("Difference between PARS and English scoring")
+	plt.legend(['PARS system', 'English System'], loc = 'upper right')
+
+	plt.show()
+
+
+#			 Answer
+# When the player ability is similar, the English scoring system will
+# often make longer matches as the players don't receive points unless
+# they were the ones serving making them play more matches.
+# However when one player has majorly higher ability, PARS system takes longer,
+# Simply because of the score that needs to be reached.
